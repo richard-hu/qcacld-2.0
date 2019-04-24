@@ -769,10 +769,24 @@ ol_tx_pdev_ll_pause_queue_send_all(struct ol_txrx_pdev_t *pdev)
 }
 #endif
 
-void ol_tx_vdev_ll_pause_queue_send(void *context)
+void ol_tx_vdev_ll_pause_queue_send_tx(void *context)
 {
 #ifdef QCA_SUPPORT_TXRX_VDEV_LL_TXQ
     struct ol_txrx_vdev_t *vdev = (struct ol_txrx_vdev_t *) context;
+
+    if (vdev->pdev->tx_throttle.current_throttle_level != THROTTLE_LEVEL_0 &&
+        vdev->pdev->tx_throttle.current_throttle_phase == THROTTLE_PHASE_OFF) {
+        return;
+    }
+
+    ol_tx_vdev_ll_pause_queue_send_base(vdev);
+#endif
+}
+
+void ol_tx_vdev_ll_pause_queue_send(struct timer_list *t)
+{
+#ifdef QCA_SUPPORT_TXRX_VDEV_LL_TXQ
+    struct ol_txrx_vdev_t *vdev = from_timer(vdev, t, ll_pause.timer);
 
     if (vdev->pdev->tx_throttle.current_throttle_level != THROTTLE_LEVEL_0 &&
         vdev->pdev->tx_throttle.current_throttle_phase == THROTTLE_PHASE_OFF) {

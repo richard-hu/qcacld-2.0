@@ -162,7 +162,8 @@ ol_tx_hl_queue_flush_all(struct ol_txrx_vdev_t* vdev)
 #define OL_TX_HL ol_tx_hl
 #endif
 
-void ol_tx_vdev_ll_pause_queue_send(void *context);
+void ol_tx_vdev_ll_pause_queue_send_tx(void *context);
+void ol_tx_vdev_ll_pause_queue_send(struct timer_list *t);
 
 adf_nbuf_t
 ol_tx_non_std_ll(

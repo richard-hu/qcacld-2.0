@@ -1138,7 +1138,7 @@ ol_txrx_vdev_unpause(ol_txrx_vdev_handle vdev, u_int32_t reason)
 #endif
             if (!vdev->ll_pause.paused_reason) {
                 adf_os_spin_unlock_bh(&vdev->ll_pause.mutex);
-                ol_tx_vdev_ll_pause_queue_send(vdev);
+                ol_tx_vdev_ll_pause_queue_send_tx(vdev);
             } else {
                 adf_os_spin_unlock_bh(&vdev->ll_pause.mutex);
             }
