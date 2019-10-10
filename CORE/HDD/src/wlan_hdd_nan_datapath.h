@@ -205,6 +205,8 @@ struct nan_datapath_ctx {
 };
 
 #ifdef WLAN_FEATURE_NAN_DATAPATH
+extern const struct nla_policy
+qca_wlan_vendor_ndp_policy[QCA_WLAN_VENDOR_ATTR_NDP_PARAMS_MAX + 1];
 void hdd_ndp_print_ini_config(struct hdd_context_s *hdd_ctx);
 void hdd_nan_datapath_target_config(hdd_context_t *hdd_ctx,
 				struct hdd_tgt_cfg *cfg);
