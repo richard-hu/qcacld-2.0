@@ -108,7 +108,8 @@ static inline void vos_pm_wake_lock_release(struct wakeup_source *ws)
 
 static inline void vos_pm_wake_lock_destroy(struct wakeup_source *ws)
 {
-	wakeup_source_trash(ws);
+	wakeup_source_remove(ws);
+	__pm_relax(ws);
 }
 
 static inline int vos_wlan_pm_control(bool vote)
@@ -120,7 +121,7 @@ static inline void vos_release_pm_sem(void) { return; }
 
 static inline void vos_get_monotonic_bootime_ts(struct timespec *ts)
 {
-	get_monotonic_boottime(ts);
+	*ts = ktime_to_timespec(ktime_get_boottime());
 }
 
 static inline void vos_get_boottime_ts(struct timespec *ts)
@@ -198,7 +199,7 @@ static inline int vos_wlan_get_dfs_nol(void *info, u16 info_len)
 
 static inline void vos_get_monotonic_boottime_ts(struct timespec *ts)
 {
-	get_monotonic_boottime(ts);
+	*ts = ktime_to_timespec(ktime_get_boottime());
 }
 
 static inline void vos_schedule_recovery_work(struct device *dev) { return; }
